@@ -1,0 +1,19 @@
+-------------------Program starts-----------------
+	User input
+		1. User inserts dimensions M & N of Board
+		2. Game difficulty (Easy,Medium,Hard)
+			[
+				Easy: 5% obstacles, 5% enemies per STAGE
+				Medium: 5% obstacles, 10% enemies per STAGE
+				Hard: 10% obstacles, 10% enemies per STAGE
+			]
+	Game logic
+		1. Take user input
+		2. Start a STAGE
+			2.1. Generate Board with N x M Dimensions {
+				When generating the Board we have to check for limitations.
+			}
+			2.2 Calculate % of enemies and obstacles based on the game level
+			2.3 Add enemies and obstacles to Board
+			2.4 Add Knight
+			2.5 TO BE IMPLEMENTED (Add game rules after this)
