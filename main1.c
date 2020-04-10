@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-int OBS(int line , int column, char DIF);
+int calculate_percetanges(int line , int column, char diffic);
 int main (void)
 {
 	int m,n,upol;
-	char LVL;
+	char lvl;
 	printf("________________________________________________________________________________\n");
 	printf ("Choose your preffered dimensions\n");
 	printf ("Choose the LINE\n");
@@ -14,14 +14,16 @@ int main (void)
 	printf("________________________________________________________________________________\n");
 	printf ("Choose the difficulty\n");
 	printf ("(e)EASY , (m)Medium , (h)HARD\n");
-	scanf("%c", &LVL);
-	while (LVL != ('e') && LVL != ('m') && LVL != ('h'))
+	scanf("%c", &lvl);
+	while (lvl != ('e') && lvl != ('m') && lvl != ('h'))
 	{	
 			printf ("PLEASE TYPE: (e)EASY , (m)Medium , (h)HARD\n");
-			scanf("%c", &LVL);
+			scanf("%c", &lvl);
 			
 	}
-	upol= OBS(m,n,LVL);   /* TO KANO GIA NA UPOLOGISO TA OBSTACLES*/
+		
+
+	upol= calculate_percetanges(m,n,lvl);   /* TO KANO GIA NA UPOLOGISO TA OBSTACLES*/
 	printf("%d",upol);    /* ALLA APO TI FENETAI  THA EXEI KANENA PROVLHMA ME TO 'e' 'm' 'h' */
 		
 		
@@ -29,24 +31,24 @@ int main (void)
 	return 0;
 }
 
-int OBS(int line , int column, char DIF)
+int calculate_percetanges(int line , int column, char diffic)
 {
-	int FINALOBS,X;
-	X=line*column;
-	if (DIF='e')
+	int x;
+	x=line*column;
+	if (diffic=='e')
 	{
-		X=X*(5/100);
+		x=x*(5/100);
 	}
-	else if (DIF='m')
+	else if (diffic=='m')
 	{
-		X=X*(10/100);
+		x=x*(10/100);
 	}
-	else if (DIF='h')
+	else if (diffic=='h')
 	{
-		X=X*(15/100);
+		x=x*(15/100);
 	}
 	
-	return X;
+	return x;
 }
 	
    
