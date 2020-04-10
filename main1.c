@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-int calculate_percetanges(int line , int column, char difficulty);
+int calculate_percentages(int line , int column , int percent);
+
 int main (void)
 {
 	int m,n,obstacle_count,enemy_count;
@@ -23,10 +24,24 @@ int main (void)
 	}
 		
 
-	obstacle_count= calculate_percetanges(m,n,lvl); /* TO KANO GIA NA UPOLOGISO TA OBSTACLES*/
-  	printf ("\nThe obstacles will be :");	
-	printf("%d\n",obstacle_count);    
-	enemy_count= calculate_percetanges(m,n,lvl);
+	
+	if (lvl == 'e')
+	{
+		obstacle_count =calculate_percentages(m,n,5);
+		enemy_count =calculate_percentages(m,n,5);
+	}
+	else if (lvl == 'm')
+	{
+		obstacle_count =calculate_percentages(m,n,5);
+		enemy_count =calculate_percentages(m,n,10);
+	}
+	else
+	{
+		obstacle_count =calculate_percentages(m,n,10);
+		enemy_count =calculate_percentages(m,n,10);
+	}
+	printf ("\nThe obstacles will be :");	
+	printf("%d\n",obstacle_count);    	
 	printf ("\nThe enemys will be :");	
 	printf("%d\n",enemy_count);    	
 		
@@ -34,27 +49,21 @@ int main (void)
 	return 0;
 }
 
-int calculate_percetanges(int line , int column, char difficulty)
+int calculate_percentages(int line , int column , int percent)
 {
-	int x;
+	int x,s;
 	x=line*column;
-	if (difficulty=='e')
-	{
-		x=x*5/100;
-	}
-	else if (difficulty=='m')
-	{
-		x=x*10/100;
-	}
-	else if (difficulty=='h')
-	{
-		x=x*15/100;
-	}
 	
-	return x;
+	s=x*percent/100;
+	
+		
+	
+	
+	
+	return s;
 }
 	
-   
+
 		
 
 
