@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-int calculate_percetanges(int line , int column, char diffic);
+int calculate_percetanges(int line , int column, char difficulty);
 int main (void)
 {
-	int m,n,upol;
+	int m,n,obstacle_count,enemy_count;
 	char lvl;
 	printf("________________________________________________________________________________\n");
 	printf ("Choose your preffered dimensions\n");
@@ -23,29 +23,32 @@ int main (void)
 	}
 		
 
-	upol= calculate_percetanges(m,n,lvl);   /* TO KANO GIA NA UPOLOGISO TA OBSTACLES*/
-	printf("%d",upol);    /* ALLA APO TI FENETAI  THA EXEI KANENA PROVLHMA ME TO 'e' 'm' 'h' */
-		
+	obstacle_count= calculate_percetanges(m,n,lvl); /* TO KANO GIA NA UPOLOGISO TA OBSTACLES*/
+  	printf ("\nThe obstacles will be :");	
+	printf("%d\n",obstacle_count);    
+	enemy_count= calculate_percetanges(m,n,lvl);
+	printf ("\nThe enemys will be :");	
+	printf("%d\n",enemy_count);    	
 		
 	
 	return 0;
 }
 
-int calculate_percetanges(int line , int column, char diffic)
+int calculate_percetanges(int line , int column, char difficulty)
 {
 	int x;
 	x=line*column;
-	if (diffic=='e')
+	if (difficulty=='e')
 	{
-		x=x*(5/100);
+		x=x*5/100;
 	}
-	else if (diffic=='m')
+	else if (difficulty=='m')
 	{
-		x=x*(10/100);
+		x=x*10/100;
 	}
-	else if (diffic=='h')
+	else if (difficulty=='h')
 	{
-		x=x*(15/100);
+		x=x*15/100;
 	}
 	
 	return x;
