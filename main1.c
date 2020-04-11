@@ -16,9 +16,9 @@ typedef struct { /* OUTE EDW */
 
 int main (void)
 {
-	int m,n,obstacle_count,enemy_count;
+	int m,n,obstacle_count,enemy_count,i,j;
 	char lvl;
-	int **array,i,j;
+	final_board **array;
 	printf("________________________________________________________________________________\n");
 	printf ("Choose your preffered dimensions\n");
 	printf ("Choose the LINE\n");
@@ -26,9 +26,9 @@ int main (void)
 	printf ("Choose the COLUMN\n");
 	scanf ("%d", &n);
 	printf("________________________________________________________________________________\n");
-	array=(int**)malloc(m*sizeof(int*));   /* EKANA TON PINAKA DUNAMIKO */
+	array=(final_board**)malloc(m*sizeof(final_board*));   /* EKANA TON PINAKA DUNAMIKO */
 	for(i=0;i<m;i++){
-			array[i]=(int*)malloc(n*sizeof(int));
+			array[i]=(final_board*)malloc(n*sizeof(final_board));
 	}
 	printf ("Choose the difficulty\n");
 	printf ("(e)EASY , (m)Medium , (h)HARD\n");
