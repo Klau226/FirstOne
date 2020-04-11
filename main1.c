@@ -2,23 +2,19 @@
 #include <stdlib.h>
 int calculate_percentages(int line , int column , int percent);
 
-typedef struct{ /* DEN KSERW AN EINAI SWSTO*/
-	int m;
-	int n;
-} dimensions;
-
+typedef struct {
+	int status;
+} level;
 typedef struct { /* OUTE EDW */
-	char lvl;
-	dimensions array;
 	int obstacle_count;
 	int enemy_count;
-} final_board;
+} board;
 
 int main (void)
 {
 	int m,n,obstacle_count,enemy_count,i,j;
 	char lvl;
-	final_board **array;
+	level status=1;
 	printf("________________________________________________________________________________\n");
 	printf ("Choose your preffered dimensions\n");
 	printf ("Choose the LINE\n");
@@ -26,10 +22,6 @@ int main (void)
 	printf ("Choose the COLUMN\n");
 	scanf ("%d", &n);
 	printf("________________________________________________________________________________\n");
-	array=(final_board**)malloc(m*sizeof(final_board*));   /* EKANA TON PINAKA DUNAMIKO */
-	for(i=0;i<m;i++){
-			array[i]=(final_board*)malloc(n*sizeof(final_board));
-	}
 	printf ("Choose the difficulty\n");
 	printf ("(e)EASY , (m)Medium , (h)HARD\n");
 	scanf("%c", &lvl);
@@ -52,7 +44,18 @@ int main (void)
 	printf ("\nThe obstacles will be :");	
 	printf("%d\n",obstacle_count);    	
 	printf ("\nThe enemys will be :");	
-	printf("%d\n",enemy_count);    				
+	printf("%d\n",enemy_count);  
+
+	for(i=1;i<=10;i++){
+		while (status==1){
+			printf("The level is ok dog whats up man\n");
+		};
+			
+			
+	
+		
+
+  				
 	return 0;
 }
 
