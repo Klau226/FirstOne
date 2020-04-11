@@ -26,9 +26,9 @@ int main (void)
 	printf ("Choose the COLUMN\n");
 	scanf ("%d", &n);
 	printf("________________________________________________________________________________\n");
-	array=(int**)malloc(m*sizeof(int*);   /* EKANA TON PINAKA DUNAMIKO */
+	array=(int**)malloc(m*sizeof(int*));   /* EKANA TON PINAKA DUNAMIKO */
 	for(i=0;i<m;i++){
-			array[i]=(int*)malloc(n*sizeof(int);
+			array[i]=(int*)malloc(n*sizeof(int));
 	}
 	printf ("Choose the difficulty\n");
 	printf ("(e)EASY , (m)Medium , (h)HARD\n");
