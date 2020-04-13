@@ -14,7 +14,6 @@ typedef struct{
 }Board;
 typedef struct{
 	char symbol;
-	int random_enemies; /* ?? */
 }Enemy;
 typedef struct{
 	char symbol;
@@ -27,7 +26,7 @@ int calculate_percentage(int x , int y , int percent);
 void init_level(Level* level, int x, int y, char selected_level);
 void end_level(Level* level);
 Board* create_board(int x, int y, int obstacles, int enemies);
-Enemy* create_enemy(int x, int y, int enemies);
+Enemy* create_enemy(int x, int y, char symbol);
 
 int main (void)
 {
@@ -60,6 +59,7 @@ int main (void)
 void init_level(Level* level, int x, int y, char selected_level){
 	level->status = 1;
 	int obstacle_count, enemy_count;
+	char symboll;
 	if(selected_level == 'e'){	
 		obstacle_count = calculate_percentage(x,y,5);
 		enemy_count = calculate_percentage(x,y,5);
@@ -70,29 +70,29 @@ void init_level(Level* level, int x, int y, char selected_level){
 		obstacle_count = calculate_percentage(x,y,10);
 		enemy_count = calculate_percentage(x,y,10);
 	}
-	Board* new_board = create_board(x,y,obstacle_count,enemy_count); 
+	Board* new_board = create_board(x,y,obstacle_count,enemy_count);
+	Enemy* new_enemies = create_enemy(x,y,symboll); 
     printf("The matrix elements are:\n");
     for (int i = 0; i < x; i++) {
-        for (int j = 0; j < y; j++) {
+        for (int j = 0; j < y; j++) {		
            printf("*");
         }
         printf("\n");
    }
 }
 Board* create_board(int x, int y, int obstacles, int enemies){
+	char symboll;
 	Board *new_board = (Board*)malloc(sizeof(Board));
 	int *tmp_arr = (int *)malloc(x * y * sizeof(int)); 
 	memcpy(new_board->board, tmp_arr, sizeof(new_board->board));
 	srand(time(NULL));
 	new_board->obstacles = obstacles;
 	new_board->enemies = enemies;
-	Enemy* new_enemies = create_enemy(x,y,enemies); /* OTI NANAI KANO */
-	
 	return new_board;
 }
-Enemy* create_enemy(int x, int y, int enemies){
+Enemy* create_enemy(int x, int y, char symbol){
 	Enemy *new_enemies;
-	new_enemies->random_enemies= 5;
+	new_enemies->symbol= '$';
 	return new_enemies;
 }
 
