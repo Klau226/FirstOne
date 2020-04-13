@@ -8,17 +8,18 @@ typedef struct{
 	int id;//Level 1, 2, 3 etc.
 }Level;
 typedef struct{
+	/* 0= Cell,1 = Knight,2 = Enemy,3 = Obstacle*/
+	int type;
+	char symbol;
+}BoardElement;
+typedef struct{
 	BoardElement* board[10][10];
 	int obstacles;
 	int enemies;
 	int x;
 	int y;
 }Board;
-typedef struct{
-	/* 0= Cell,1 = Knight,2 = Enemy,3 = Obstacle*/
-	int type;
-	char symbol;
-}BoardElement;
+
 typedef struct{
 	int symbol;
 }Enemy;
@@ -33,8 +34,8 @@ int calculate_percentage(int x , int y , int percent);
 void init_level(Level* level, int x, int y, char selected_level);
 void end_level(Level* level);
 Board* create_board(int x, int y, int obstacles, int enemies);
-Enemy* create_enemy( char symbol ,Board* new_board );
-int insert_enemy(Board* board,Enemy* enemy);
+//Enemy* create_enemy( char symbol ,Board* new_board );
+//int insert_enemy(Board* board,Enemy* enemy);
 BoardElement* create_asterisk();
 
 int main (void)
@@ -78,12 +79,14 @@ void init_level(Level* level, int x, int y, char selected_level){
 		obstacle_count = calculate_percentage(x,y,10);
 		enemy_count = calculate_percentage(x,y,10);
 	}
+	/*
 	Board* new_board = create_board(x,y,obstacle_count,enemy_count);
 	for (int i = 0; i < x; i++) {
-        for (int j = 0; j < y; j++) {	
-           	printf("*");
+        for (int j = 0; j < y; j++) {
+			//BoardElement* new_element = create_asterisk();
+           	//new_board->board[i][j] = new_element;
         }
-	/*
+	}
 	srand(time(NULL));
 	for (int i = 0; i < enemy_count; i++){
 		Enemy* new_enemy = create_enemy(symbol,new_board);
@@ -92,7 +95,7 @@ void init_level(Level* level, int x, int y, char selected_level){
 			printf("%d",inserted);
 		}
 	}
-	/*
+	*/
 	printf("The matrix elements are:\n");
     for (int i = 0; i < x; i++) {
         for (int j = 0; j < y; j++) {	
@@ -100,7 +103,6 @@ void init_level(Level* level, int x, int y, char selected_level){
         }
         printf("\n");
    }
-   */
 }
 Board* create_board(int x, int y, int obstacles, int enemies){
 	Board *new_board = (Board*)malloc(sizeof(Board));
@@ -112,6 +114,7 @@ Board* create_board(int x, int y, int obstacles, int enemies){
 	new_board->y = y;
 	return new_board;
 }
+/*
 Enemy* create_enemy( char symbol , Board* new_board){
 	Enemy *new_enemy = (Enemy*)malloc(sizeof(Enemy));
 	new_enemy->symbol = rand()%4;
@@ -120,19 +123,22 @@ Enemy* create_enemy( char symbol , Board* new_board){
 	}
 	return new_enemy;
 }
+*/
 BoardElement* create_asterisk(){
 	BoardElement *new_asterisk = (BoardElement*)malloc(sizeof(BoardElement));
 	new_asterisk->symbol = '*';
 	return new_asterisk;
 }
+/*
 int insert_enemy(Board* board,Enemy* enemy){
+	return 1;
 	int randX = rand()%board->x;
 	int randY = rand()%board->y;
-	board->board[randX][randY] = enemy->symbol;
-	printf("%d",board->board[randX][randY]);
+	board->board[randX][randY] = enemy;
+	printf("%d",board->board[randX][randY]->symbol);
 	return 1;
 }
-
+*/
 void end_level(Level* level){
 	level->status = -1;
 }
