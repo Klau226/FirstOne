@@ -76,17 +76,12 @@ void init_level(Level* level, int x, int y, char selected_level){
     printf("The matrix elements are:\n");
 	for (int i = 0; i < enemy_count; i++){
 		k=rand()%3;
-		
+		k=1+rand()%3;
+		printf("%d",k);
 	}
     for (int i = 0; i < x; i++) {
-        for (int j = 0; j < y; j++) {
-		   if (i==enemy_count){
-				k=1+rand()%3;
-				printf("%d",k);
-			}
-			else{
+        for (int j = 0; j < y; j++) {	
            	printf("*");
-			}	
         }
         printf("\n");
    }
