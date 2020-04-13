@@ -7,9 +7,9 @@ typedef struct{
 	int id;//Level 1, 2, 3 etc.
 }Level;
 typedef struct{
-	int board[0][0];
+	int board[10][10];
 	int obstacles;
-	int enemies;	
+	int enemies;
 }Board;
 typedef struct{
 	char symbol;
@@ -57,7 +57,7 @@ int main (void)
 void init_level(Level* level, int x, int y, char selected_level){
 	level->status = 1;
 	int obstacle_count, enemy_count;
-	if(selected_level == 'e'){
+	if(selected_level == 'e'){	
 		obstacle_count = calculate_percentage(x,y,5);
 		enemy_count = calculate_percentage(x,y,5);
 	}else if(selected_level == 'm'){
@@ -67,15 +67,21 @@ void init_level(Level* level, int x, int y, char selected_level){
 		obstacle_count = calculate_percentage(x,y,10);
 		enemy_count = calculate_percentage(x,y,10);
 	}
-	Board* s = create_board(x,y,obstacle_count,enemy_count);
-	printf("%d",s->enemies);
+	Board* new_board = create_board(x,y,obstacle_count,enemy_count); 
+	printf("The matrix elements are:\n");
+	for (int i = 0; i < x; i++) {
+		for (int j = 0; j < y; j++) {
+		}
+		printf("\n");
+	}
 }
 Board* create_board(int x, int y, int obstacles, int enemies){
-	Board *s;
-	s->board[x][y];
-	s->enemies = enemies;
-	s->obstacles = obstacles;
-	return s;
+	Board *new_board = (Board*)malloc(sizeof(Board));
+	int *tmp_arr = (int *)malloc(x * y * sizeof(int)); 
+	memcpy(new_board->board, tmp_arr, sizeof(new_board->board));
+	new_board->obstacles = obstacles;
+	new_board->enemies = enemies;
+	return new_board;
 }
 void end_level(Level* level){
 	level->status = -1;
