@@ -53,7 +53,7 @@ int main (void)
 		int y = n + i;
 		init_level(gameLevel,x,y,selected_level);
 		while(gameLevel->status != -1){
-			//end_level(gameLevel);
+			end_level(gameLevel);
 		}
 	}
 	return 0;
@@ -110,10 +110,9 @@ Enemy* create_enemy( char symbol , Board* new_board){
 	return new_enemy;
 }
 int insert_enemy(Board* board,Enemy* enemy){
-	int randX = rand()% board->x;
+	int randX = rand()%board->x;
 	int randY = rand()%board->y;
 	board->board[randX][randY] = enemy->symbol;
-	printf("here");
 	printf("%d",board->board[randX][randY]);
 	return 1;
 }
