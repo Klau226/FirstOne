@@ -68,12 +68,13 @@ void init_level(Level* level, int x, int y, char selected_level){
 		enemy_count = calculate_percentage(x,y,10);
 	}
 	Board* new_board = create_board(x,y,obstacle_count,enemy_count); 
-	printf("The matrix elements are:\n");
-	for (int i = 0; i < x; i++) {
-		for (int j = 0; j < y; j++) {
-		}
-		printf("\n");
-	}
+    printf("The matrix elements are:\n");
+    for (int i = 0; i < x; i++) {
+        for (int j = 0; j < y; j++) {
+           printf("*");
+        }
+        printf("\n");
+   }
 }
 Board* create_board(int x, int y, int obstacles, int enemies){
 	Board *new_board = (Board*)malloc(sizeof(Board));
