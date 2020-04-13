@@ -26,7 +26,7 @@ int calculate_percentage(int x , int y , int percent);
 void init_level(Level* level, int x, int y, char selected_level);
 void end_level(Level* level);
 Board* create_board(int x, int y, int obstacles, int enemies);
-Enemy* create_enemy( char symbol);
+Enemy* create_enemy( char symbol ,Board* new_board );
 
 int main (void)
 {
@@ -72,12 +72,10 @@ void init_level(Level* level, int x, int y, char selected_level){
 		enemy_count = calculate_percentage(x,y,10);
 	}
 	Board* new_board = create_board(x,y,obstacle_count,enemy_count);
-	Enemy* new_enemy = create_enemy(symboll); 
+	
     printf("The matrix elements are:\n");
 	for (int i = 0; i < enemy_count; i++){
-		k=rand()%3;
-		k=1+rand()%3;
-		printf("%d",k);
+		Enemy* new_enemy = create_enemy(symboll ,new_board); 
 	}
     for (int i = 0; i < x; i++) {
         for (int j = 0; j < y; j++) {	
@@ -93,10 +91,13 @@ Board* create_board(int x, int y, int obstacles, int enemies){
 	memcpy(new_board->board, tmp_arr, sizeof(new_board->board));
 	new_board->obstacles = obstacles;
 	new_board->enemies = enemies;
+	Enemy* new_enemy = create_enemy(symboll,new_board); 
 	return new_board;
 }
-Enemy* create_enemy( char symbol){
+Enemy* create_enemy( char symbol , Board* new_board){
 	Enemy *new_enemy;
+	new_enemy->symbol = 1+rand()%3;
+	new_board->enemies = new_enemy->symbol;
 	return new_enemy;
 }
 
