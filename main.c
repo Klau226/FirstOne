@@ -2,14 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-typedef struct{
-	int status;
-	int id;//Level 1, 2, 3 etc.
-}Level;
-/**	Struct BoardElement represents a board element
- *  A BoardELement can be whatever we like, Bellow you can see available types
-*/
+int MAX_BOARD_SIZE = 100;
+int MAX_LEVEL = 10;
 typedef struct{
 	/* 0= Cell,1 = Knight,2 = Enemy,3 = Obstacle*/
 	int type;
@@ -19,12 +13,20 @@ typedef struct{
  *  A GameBoard has an array of BoardElements
 */
 typedef struct{
-	BoardElement* board[10][10];
+	BoardElement* board[100][100];
 	int obstacles;
 	int enemies;
 	int x;
 	int y;
 }Board;
+/**	Struct BoardElement represents a board element
+ *  A BoardELement can be whatever we like, Bellow you can see available types
+*/
+typedef struct{
+	int status;
+	int id;//Level 1, 2, 3 etc.
+	Board* current_board;
+}Level;
 
 /*Functions*/
 int calculate_percentage(int x , int y , int percent);
@@ -43,8 +45,16 @@ int main (void)
 	char selected_level;
 	printf ("Choose the LINES\n");
 	scanf ("%d", &m);
+	while (m > (MAX_BOARD_SIZE - MAX_LEVEL)){
+		printf ("Max lines are 90\n");
+		scanf ("%d", &m);
+	}
 	printf ("Choose the COLUMNS\n");
 	scanf ("%d", &n);
+	while (n > (MAX_BOARD_SIZE - MAX_LEVEL)){
+		printf ("Max columns are 90\n");
+		scanf ("%d", &n);
+	}
 	printf ("Choose the difficulty\n");
 	printf ("(e)EASY , (m)Medium , (h)HARD\n");
 	scanf(" %c", &selected_level);
@@ -54,7 +64,7 @@ int main (void)
 		scanf(" %c", &selected_level);		
 	}
 	/*Run for 10 levels*/
-	for (int i = 0; i < 10; i++){
+	for (int i = 0; i < MAX_LEVEL; i++){
 		printf("new level %d\n",i);
 		Level *gameLevel;//Create new level
 		int x = m + i;//Increase x by 1 every time in order to increase the board size
@@ -84,6 +94,7 @@ void init_level(Level* level, int x, int y, char selected_level){
 	}
 	/*Create the board and initialize with empty cells*/
 	Board* new_board = create_board(x,y,obstacle_count,enemy_count);
+	level->current_board = new_board; 
 	for (int i = 0; i < x; i++) {
         for (int j = 0; j < y; j++) {	
            	new_board->board[i][j] = create_element(0);
@@ -103,7 +114,7 @@ void init_level(Level* level, int x, int y, char selected_level){
 Board* create_board(int x, int y, int obstacles, int enemies){
 	Board *new_board = (Board*)malloc(sizeof(Board));
 	BoardElement *tmp_arr = (BoardElement *)malloc(x * y * sizeof(BoardElement)); 
-	memcpy(new_board->board, tmp_arr, sizeof(new_board->board));
+	memcpy(new_board->board, tmp_arr, sizeof(tmp_arr));
 	new_board->obstacles = obstacles;
 	new_board->enemies = enemies;
 	new_board->x = x;
@@ -132,16 +143,19 @@ BoardElement* create_element(int type){
 void insert_enemies(Board* board){
 	for (int i = 0; i < board->enemies; i++)
 	{
+		srand(time(0)); 
 		BoardElement* new_enemy = create_element(2);
 		int foundEmptySpace = 0;
 		while(!foundEmptySpace){
-			int randX = rand() % board->x;
-			int randY = rand() % board->y;
+			int randX = rand()%board->x;
+			int randY = rand()%board->y;
 			BoardElement* tmp_element = board->board[randX][randY];
-			if(board->board[randX][randY]->type == 0){
-				board->board[randX][randY] = new_enemy;
-				free(tmp_element);
-				foundEmptySpace = 1;
+			if(board->board[randX][randY]){
+				if(board->board[randX][randY]->type == 0){
+					board->board[randX][randY] = new_enemy;
+					free(tmp_element);
+					foundEmptySpace = 1;
+				}
 			}
 		}
 	}
@@ -187,6 +201,7 @@ void print(Board* board){
 }
 void end_level(Level* level){
 	level->status = -1;
+	free(level->current_board);
 }
 int calculate_percentage(int x , int y , int percent){
 	int total,res;
