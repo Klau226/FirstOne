@@ -18,6 +18,7 @@ typedef struct{
 	int enemies;
 	int x;
 	int y;
+	int enemies_formation[4];
 }Board;
 /**	Struct BoardElement represents a board element
  *  A BoardELement can be whatever we like, Bellow you can see available types
@@ -41,6 +42,7 @@ BoardElement* create_element(int type);
 
 int main (void)
 {
+	srand(time(NULL));
 	int m,n;
 	char selected_level;
 	printf ("Choose the LINES\n");
@@ -100,7 +102,7 @@ void init_level(Level* level, int x, int y, char selected_level){
            	new_board->board[i][j] = create_element(0);
         }
 	}
-	srand(time(0)); 
+	/* edw edw edw edw edw */ 
 	//Insert enemies in random positions of the board;
 	insert_enemies(new_board);
 	//Insert obstacles in random positions of the board;
@@ -143,18 +145,24 @@ BoardElement* create_element(int type){
 void insert_enemies(Board* board){
 	for (int i = 0; i < board->enemies; i++)
 	{
-		srand(time(0)); 
+		/*edw edw edw edw edw*/
 		BoardElement* new_enemy = create_element(2);
 		int foundEmptySpace = 0;
 		while(!foundEmptySpace){
 			int randX = rand()%board->x;
 			int randY = rand()%board->y;
-			BoardElement* tmp_element = board->board[randX][randY];
-			if(board->board[randX][randY]){
-				if(board->board[randX][randY]->type == 0){
-					board->board[randX][randY] = new_enemy;
-					free(tmp_element);
-					foundEmptySpace = 1;
+			board->enemies_formation[4]=(board->x+1),(board->x-1),(board->y+1),(board->y-1);
+			for (int j=0;j<board->enemies_formation;j++){
+				int randZ = rand()%board->enemies_formation[j];
+			
+				BoardElement* tmp_element = board->board[randX][randY];
+				if(board->board[randX][randY]){
+					if(board->board[randX][randY]->type == 0){
+						board->board[randX][randY] = new_enemy;
+						board->board->enemies_formation[j] = new_enemy;
+						free(tmp_element);
+						foundEmptySpace = 1;
+					}
 				}
 			}
 		}
@@ -209,3 +217,4 @@ int calculate_percentage(int x , int y , int percent){
 	res = total*percent/100;
 	return res;
 }
+	
