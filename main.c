@@ -18,7 +18,6 @@ typedef struct{
 	int enemies;
 	int x;
 	int y;
-	int enemies_formation[4];
 }Board;
 /**	Struct BoardElement represents a board element
  *  A BoardELement can be whatever we like, Bellow you can see available types
@@ -152,20 +151,17 @@ void insert_enemies(Board* board){
 		while(!foundEmptySpace){
 			int randX = rand()%board->x;
 			int randY = rand()%board->y;
-			board->enemies_formation[4]=(board->x+1),(board->x-1),(board->y+1),(board->y-1);
-			for (int j=0;j<board->enemies_formation;j++){
-				int randZ = rand()%board->enemies_formation[j];
 			
-				BoardElement* tmp_element = board->board[randX][randY];
-				if(board->board[randX][randY]){
-					if(board->board[randX][randY]->type == 0){
+			
+			BoardElement* tmp_element = board->board[randX][randY];
+			if(board->board[randX][randY]){
+				if(board->board[randX][randY]->type == 0){
 						board->board[randX][randY] = new_enemy;
-						board->board->enemies_formation[j] = new_enemy;
 						free(tmp_element);
 						foundEmptySpace = 1;
+					
 					}
 				}
-			}
 		}
 	}
 }
