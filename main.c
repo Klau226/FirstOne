@@ -149,9 +149,12 @@ void insert_enemies(Board* board){
 		BoardElement* new_enemy = create_element(2);
 		int foundEmptySpace = 0;
 		while(!foundEmptySpace){
-			if (prevX!=foundEmptySpace && prevY!=foundEmptySpace){
-				int array[4]={(prevX+1,prevX-1,prevY+1,prevY-1)};
-				}
+			if (!prevX){
+				int tmpX[2]={prevX-1,prevX+1};
+			}
+			else if(!prevY){
+				int tmpY[2]={prevY-1,prevY+1};
+			}	
 			else{
 	
 				int randX = rand()%board->x;
@@ -165,6 +168,7 @@ void insert_enemies(Board* board){
 					
 					}
 				}
+			}
 		}
 	}
 }
