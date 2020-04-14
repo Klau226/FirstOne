@@ -152,13 +152,15 @@ void insert_enemies(Board* board){
 			if (!prevX){
 				int tmpX[2]={prevX-1,prevX+1};
 			}
-			else if(!prevY){
-				int tmpY[2]={prevY-1,prevY+1};
-			}	
-			else{
-	
+			else {
 				int randX = rand()%board->x;
+			}	
+			if (!prevY){
+				int tmpY[2]={prevY-1,prevY+1};
+			}
+			else {
 				int randY = rand()%board->y;
+			}
 				BoardElement* tmp_element = board->board[randX][randY];
 				if(board->board[randX][randY]){
 					if(board->board[randX][randY]->type == 0){
