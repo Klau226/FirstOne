@@ -143,6 +143,7 @@ BoardElement* create_element(int type){
 	return new_element;
 }
 void insert_enemies(Board* board){
+	int prevX,prevY;
 	for (int i = 0; i < board->enemies; i++)
 	{
 		/*edw edw edw edw edw*/
