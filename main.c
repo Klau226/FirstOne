@@ -37,7 +37,7 @@ void insert_enemies(Board* board);
 void insert_obstacles(Board* board);
 void insert_knight(Board* board);
 int movement(char move ,int step,Board* board);
-BoardElement* movement_knight(Board* board); 
+BoardElement* get_knight(Board* board); 
 void print(Board* board);
 BoardElement* create_element(int type);
 
@@ -243,20 +243,15 @@ void print(Board* board){
 }
 }
 int movement(char move ,int step,Board* board){
+	BoardElement *knight = get_knight(board);
+	printf("Knight x: %d \n",knight->x);//An kanei print ayto shmainei oti petyxe
+}
+BoardElement* get_knight(Board* board){
 	for(int i=0;i<board->x;i++){
 		for (int j=0;j<board->y;j++){
-			movement_knight(board);
-			movement=board->board[i][j]; /*EINAI LATHOS I KNOW */
+			return board->board[i][j]; /*EINAI LATHOS I KNOW */
 		}
 	}
-	return movement;
-}
-BoardElement* movement_knight(Board* board){
-	BoardElement* move_knight;
-	if (move_knight->type==1){
-		printf("hello");
-	}
-	
 }
 void end_level(Level* level){
 	level->status = -1;
