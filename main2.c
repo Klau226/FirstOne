@@ -246,33 +246,34 @@ void print(Board* board){
 		printf(" _");
 	}
 	printf("\n");
-		for (int i = 0; i < board->x; i++) {
-			printf("%3d |",i+1);
-			for (int j=0;j < board->y; j++){
-				printf("%3c", board->board[i][j]->symbol);
-			}
-			printf("\n");
-}
+	for (int i = 0; i < board->x; i++) {
+		printf("%3d |",i+1);
+		for (int j=0;j < board->y; j++){
+			printf("%3c", board->board[i][j]->symbol);
+		}
+		printf("\n");
+	}
 }
 int movement(char move ,int step,Board* current_board){
-	int oldX,oldY;
-	int newX,newY;
-	int swapX,swapY;
 	BoardElement *knight = get_knight(current_board);
-	oldX = knight->x;
-	oldY = knight->y;
+	int oldX = knight->x;
+	int oldY = knight->y;
 	printf("Knight x: %d \n",knight->x);
 	printf("Knight y: %d \n",knight->y); 
 	if (move =='r'){
-			newX = knight->x;
-			newX = newX-step;
-			
+			int newX = knight->x - step;
 			if (current_board->board[newX][oldY]->type == 0){
 				BoardElement* tmp = current_board->board[newX][oldY];
-				current_board->board[newX][oldY]->x = newX;
+				//This means that the new position = KNIGHT
+				current_board->board[newX][oldY] = current_board->board[oldX][oldY];
+				//This means that the old position of thr KNIGHT = tmp = EMPTY CELL
 				current_board->board[oldX][oldY] = tmp;
-				current_board->board[knight->x][knight->y]=current_board->board[newX][oldY];
-				tmp->x = oldX;		
+				// Update the x value of the KNIGHT
+				current_board->board[newX][oldY]->x = newX;
+				//Update the x value of the CELL
+				tmp->x = oldX;
+				//FREE the temporary pointer
+				free(tmp);
 			}
 			
 	} 
