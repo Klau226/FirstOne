@@ -246,22 +246,24 @@ void print(Board* board){
 		printf(" _");
 	}
 	printf("\n");
-	for (int i = 0; i < board->x; i++) {
-		printf("%3d |",i+1);
-		for (int j=0;j < board->y; j++){
-			printf("%3c", board->board[i][j]->symbol);
-		}
-		printf("\n");
-	}
+		for (int i = 0; i < board->x; i++) {
+			printf("%3d |",i+1);
+			for (int j=0;j < board->y; j++){
+				printf("%3c", board->board[i][j]->symbol);
+			}
+			printf("\n");
+}
 }
 int movement(char move ,int step,Board* current_board){
+	int oldX,oldY;
+	int swapX,swapY;
 	BoardElement *knight = get_knight(current_board);
-	int oldX = knight->x;
-	int oldY = knight->y;
+	oldX = knight->x;
+	oldY = knight->y;
 	printf("Knight x: %d \n",knight->x);
 	printf("Knight y: %d \n",knight->y); 
 	if (move =='r'){
-			int newX = knight->x - step;
+			int newX = knight->x + step;
 			if (current_board->board[newX][oldY]->type == 0){
 				BoardElement* tmp = current_board->board[newX][oldY];
 				//This means that the new position = KNIGHT
@@ -275,8 +277,40 @@ int movement(char move ,int step,Board* current_board){
 				//FREE the temporary pointer
 				free(tmp);
 			}
-			
-	} 
+	}
+	else if (move == 'l'){
+		 int newXL = knight->x - step;
+		if (current_board->board[newXL][oldY]->type == 0){
+			BoardElement* tmpl = current_board->board[newXL][oldY];
+			current_board->board[newXL][oldY] = current_board->board[oldX][oldY];
+			current_board->board[oldX][oldY] = tmpl;
+			current_board->board[newXL][oldY]->x = newXL;
+			tmpl->x = oldX;
+			free(tmpl);
+		}
+	}
+	else if (move == 'u'){
+		int newYU = knight->y - step;
+		if (current_board->board[oldX][newYU]->type == 0){
+			BoardElement* tmpu = current_board->board[oldX][newYU];
+			current_board->board[oldX][newYU] = current_board->board[oldX][oldY];
+			current_board->board[oldX][oldY] = tmpu;
+			current_board->board[oldX][newYU]->y = newYU;
+			tmpu->y = newYU;
+			free(tmpu);
+		}
+	}
+	else{
+		int newYD = knight->y + step;
+		if (current_board->board[oldX][newYD]->type == 0){
+		BoardElement* tmpd = current_board->board[oldX][newYD];
+		current_board->board[oldX][newYD] = current_board->board[oldX][newYD];
+		current_board->board[oldX][oldY] = tmpd;
+		current_board->board[oldX][newYD]->y = newYD;
+		tmpd->y = newYD;
+		free(tmpd);
+		}
+	}
 	
 /*An kanei print ayto shmainei oti petyxe*/ 
 }
