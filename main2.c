@@ -46,7 +46,7 @@ BoardElement* create_element(int type);
 int main (void)
 {
 	srand(time(NULL));
-	int m,n,step,movement_knight;
+	int m,n,step,movement_knight,i;
 	char selected_level,direction;
 	printf ("Choose the LINES\n");
 	scanf ("%d", &m);
@@ -69,7 +69,7 @@ int main (void)
 		scanf(" %c", &selected_level);		
 	}
 	/*Run for 10 levels*/
-	for (int i = 0; i < MAX_LEVEL; i++){
+	for ( i = 0; i < MAX_LEVEL; i++){
 		printf("new level %d\n",i);
 		Level *gameLevel;//Create new level
 		Board *knight_board;
@@ -97,7 +97,7 @@ int main (void)
 /* Function init_level creates the board and inserts each element on a random position in order for the level to begin */
 void init_level(Level* level, int x, int y, char selected_level){
 	level->status = 1;
-	int obstacle_count, enemy_count,k;
+	int obstacle_count, enemy_count,k,i,j;
 	char symbol;
 	/*Based on the level the user has selected we calculate the percentage of obstacles and enemies*/
 	if(selected_level == 'e'){	
@@ -113,8 +113,8 @@ void init_level(Level* level, int x, int y, char selected_level){
 	/*Create the board and initialize with empty cells*/
 	Board* new_board = create_board(x,y,obstacle_count,enemy_count);
 	level->current_board = new_board; 
-	for (int i = 0; i < x; i++) {
-        for (int j = 0; j < y; j++) {	
+	for ( i = 0; i < x; i++) {
+        for ( j = 0; j < y; j++) {	
            	new_board->board[i][j] = create_element(0);
         }
 	}
@@ -159,9 +159,9 @@ BoardElement* create_element(int type){
 	return new_element;
 }
 void insert_enemies(Board* board){
-	int prevX,prevY;
+	int prevX,prevY,i;
 	int randX,randY=0;
-	for (int i = 0; i < board->enemies; i++)
+	for ( i = 0; i < board->enemies; i++)
 	{
 		/*edw edw edw edw edw*/
 		BoardElement* new_enemy = create_element(2);
@@ -201,7 +201,8 @@ void insert_enemies(Board* board){
 	}
 }	
 void insert_obstacles(Board* board){
-	for (int i = 0; i < board->obstacles; i++)
+	int i;
+	for ( i = 0; i < board->obstacles; i++)
 	{
 		BoardElement* new_obstacle = create_element(3);
 		int foundEmptySpace = 0;
@@ -236,19 +237,20 @@ void insert_knight(Board* board){
 	}
 }
 void print(Board* board){
+	int z,k,i,j
 	printf("     ");
-	for (int z=0;z < board->y;z++){
+	for ( z=0;z < board->y;z++){
 		printf("%3d", z+1);
 	}
 	printf("\n");
 	
-	for (int k=0;k < board->y+board->y+3;k++){	
+	for ( k=0;k < board->y+board->y+3;k++){	
 		printf(" _");
 	}
 	printf("\n");
-		for (int i = 0; i < board->x; i++) {
+		for ( i = 0; i < board->x; i++) {
 			printf("%3d |",i+1);
-			for (int j=0;j < board->y; j++){
+			for ( j=0;j < board->y; j++){
 				printf("%3c", board->board[i][j]->symbol);
 			}
 			printf("\n");
@@ -315,8 +317,9 @@ int movement(char move ,int step,Board* current_board){
 /*An kanei print ayto shmainei oti petyxe*/ 
 }
 BoardElement* get_knight(Board* board){
-	for(int i=0;i<board->x;i++){
-		for (int j=0;j<board->y;j++){
+	int i,j;
+	for( i=0;i<board->x;i++){
+		for ( j=0;j<board->y;j++){
 			if(board->board[i][j]->type==1){
 				return board->board[i][j]; 
 			}
