@@ -80,16 +80,45 @@ int main (void)
 		int initiated = init_level(gameLevel,x,y,selected_level);//Initiate level
 		if(initiated){
 			while(gameLevel->status != -1){//Run while the level status != 'finished'
-				char nextDirection = '-';
-				int cell_count = -1;
-				while ( (nextDirection == '-') && (cell_count == -1) ){
-					printf ("Enter direction: (l)left, r(right), (u)up, (d)down\n");
-					scanf(" %c", &nextDirection);
-					printf ("Number of cells to move:\n");
-					scanf(" %d", &cell_count);
-					int moved = moveKnight(gameLevel->current_board,nextDirection,cell_count);
-					if(!moved){
-						printf("Invalid position, please choose a new one\n");
+				char nextCommand = '-';
+				while ( nextCommand == '-' ){
+					int cell_count = -1;
+					int moved = 0;
+					printf ("Enter next command:\n(l)left, r(right), (u)up, (d)down, f(Punch), a(Axe), s(Slash), b(Arrow)\n");
+					scanf(" %c", &nextCommand);
+					switch (nextCommand){
+						case 'l':
+							printf ("Number of cells to move:\n");
+							scanf(" %d", &cell_count);
+							moved = moveKnight(gameLevel->current_board,nextCommand,cell_count);
+							if(!moved){
+								printf("Invalid position, please choose a new one\n");
+							}
+							break;
+						case 'r':
+							printf ("Number of cells to move:\n");
+							scanf(" %d", &cell_count);
+							moved = moveKnight(gameLevel->current_board,nextCommand,cell_count);
+							if(!moved){
+								printf("Invalid position, please choose a new one\n");
+							}
+							break;
+						case 'u':
+							printf ("Number of cells to move:\n");
+							scanf(" %d", &cell_count);
+							moved = moveKnight(gameLevel->current_board,nextCommand,cell_count);
+							if(!moved){
+								printf("Invalid position, please choose a new one\n");
+							}
+							break;
+						case 'd':
+							printf ("Number of cells to move:\n");
+							scanf(" %d", &cell_count);
+							moved = moveKnight(gameLevel->current_board,nextCommand,cell_count);
+							if(!moved){
+								printf("Invalid position, please choose a new one\n");
+							}
+							break;
 					}
 				}
 				//end_level(gameLevel);
