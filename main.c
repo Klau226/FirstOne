@@ -45,7 +45,7 @@ BoardElement* create_element(int type);
 int moveKnight(Board* current_board, char direction, int cell_count);
 BoardElement* getKnight(Board* board);
 int x_has_obstacles(Board* board, int current_position, int new_position, int current_y);
-int y_has_obstacles(Board* board,int knight_x, int current_position, int new_position);
+int y_has_obstacles(Board* board,int current_x, int current_position, int new_position);
 
 int main (void)
 {
@@ -300,6 +300,9 @@ int moveKnight(Board* current_board, char direction, int cell_count){
 			}
 		}else{
 			moved = 0;
+			printf("-------------------\n");
+			printf("Path has obstacles!\n");
+			printf("-------------------\n");
 		}
 	}else if(direction == 'r'){
 		int newY = knight->y + cell_count;
@@ -318,7 +321,9 @@ int moveKnight(Board* current_board, char direction, int cell_count){
 			}
 		}else{
 			moved = 0;
+			printf("-------------------\n");
 			printf("Path has obstacles!\n");
+			printf("-------------------\n");
 		}
 	}else if(direction == 'u'){
 		int newX = knight->x - cell_count;
@@ -337,8 +342,9 @@ int moveKnight(Board* current_board, char direction, int cell_count){
 			}
 		}else{
 			moved = 0;
+			printf("-------------------\n");
 			printf("Path has obstacles!\n");
-		}
+			printf("-------------------\n");		}
 	}else if(direction == 'd'){
 		int newX = knight->x + cell_count;
 		if(!x_has_obstacles(current_board,knight->x,newX,knight->y)){
@@ -355,10 +361,13 @@ int moveKnight(Board* current_board, char direction, int cell_count){
 			}
 		}else{
 			moved = 0;
+			printf("-------------------\n");
 			printf("Path has obstacles!\n");
-		}
+			printf("-------------------\n");		}
 	}
-	print_board(current_board);
+	if(moved){
+		print_board(current_board);
+	}
 }
 int x_has_obstacles(Board* board, int current_position, int new_position, int current_y){
 	int response = 0;
@@ -377,31 +386,22 @@ int x_has_obstacles(Board* board, int current_position, int new_position, int cu
 	}
 	return response;
 }
-int y_has_obstacles(Board* board,int knight_x, int current_position, int new_position){
+int y_has_obstacles(Board* board,int current_x, int current_position, int new_position){
 	int response = 0;
 	if(current_position > new_position ){
-		for (int i = 0; i < board->x; i++) {
-			for (int j = current_position+1; j > new_position; j--) {	
-				if(knight_x == i){
-					printf("%c ", board->board[i][j]->symbol);
-				}
+		for (int i = new_position; i < current_position; i++) {
+			if(board->board[current_x][i]->type != 0){
+				response = 1;
 			}
-			printf("\n");
 		}
-		printf("\n");
-		//H praksh prepei na einai -
 	}else{
-		for (int i = 0; i < board->x; i++) {
-			for (int j = new_position; j < current_position; j++) {	
-				if(knight_x == i){
-					printf("%c ", board->board[i][j]->symbol);
-				}
+		for (int i = current_position+1; i < new_position+1; i++) {
+			if(board->board[current_x][i]->type != 0){
+				response = 1;
 			}
-			printf("\n");
 		}
-		printf("\n");
-		//H praksh prepei na einai +
 	}
+	return response;
 }
 int calculate_percentage(int x , int y , int percent){
 	int total,res;
