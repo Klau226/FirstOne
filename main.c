@@ -29,6 +29,7 @@ typedef struct{
 typedef struct{
 	int status;
 	int id;//Level 1, 2, 3 etc.
+	int money_spent;
 	Board* current_board;
 }Level;
 
@@ -41,12 +42,19 @@ void insert_enemies(Board* board);
 void insert_obstacles(Board* board);
 void insert_knight(Board* board);
 void print_board(Board* board);
+void print_money(Level* level);
 BoardElement* create_element(int type);
 int moveKnight(Board* current_board, char direction, int cell_count);
 BoardElement* getKnight(Board* board);
 int x_has_obstacles(Board* board, int current_position, int new_position, int current_y);
 int y_has_obstacles(Board* board,int current_x, int current_position, int new_position);
+int punch(Level* level);
+int slash(Level* level);
+int axe(Level* level);
+int arrow(Level* level);
 
+
+int total_money_spent = 0;
 int main (void)
 {
 	int user_y,user_x;
@@ -83,40 +91,76 @@ int main (void)
 				char nextCommand = '-';
 				while ( nextCommand == '-' ){
 					int cell_count = -1;
-					int moved = 0;
-					printf ("Enter next command:\n(l)left, r(right), (u)up, (d)down, f(Punch), a(Axe), s(Slash), b(Arrow)\n");
+					int command_complete = 0;
+					printf ("Make your move(s):\n(l)left, r(right), (u)up, (d)down, f(Punch), a(Axe), s(Slash), b(Arrow)\n");
 					scanf(" %c", &nextCommand);
 					switch (nextCommand){
 						case 'l':
 							printf ("Number of cells to move:\n");
 							scanf(" %d", &cell_count);
-							moved = moveKnight(gameLevel->current_board,nextCommand,cell_count);
-							if(!moved){
+							command_complete = moveKnight(gameLevel->current_board,nextCommand,cell_count);
+							if(!command_complete){
 								printf("Invalid position, please choose a new one\n");
 							}
 							break;
 						case 'r':
 							printf ("Number of cells to move:\n");
 							scanf(" %d", &cell_count);
-							moved = moveKnight(gameLevel->current_board,nextCommand,cell_count);
-							if(!moved){
+							command_complete = moveKnight(gameLevel->current_board,nextCommand,cell_count);
+							if(!command_complete){
 								printf("Invalid position, please choose a new one\n");
 							}
 							break;
 						case 'u':
 							printf ("Number of cells to move:\n");
 							scanf(" %d", &cell_count);
-							moved = moveKnight(gameLevel->current_board,nextCommand,cell_count);
-							if(!moved){
+							command_complete = moveKnight(gameLevel->current_board,nextCommand,cell_count);
+							if(!command_complete){
 								printf("Invalid position, please choose a new one\n");
 							}
 							break;
 						case 'd':
 							printf ("Number of cells to move:\n");
 							scanf(" %d", &cell_count);
-							moved = moveKnight(gameLevel->current_board,nextCommand,cell_count);
-							if(!moved){
+							command_complete = moveKnight(gameLevel->current_board,nextCommand,cell_count);
+							if(!command_complete){
 								printf("Invalid position, please choose a new one\n");
+							}
+							break;
+						case 'f':
+							command_complete = punch(gameLevel);
+							if(command_complete){
+								print_board(gameLevel->current_board);
+								print_money(gameLevel);
+							}else{
+								printf("Could not attack\n");
+							}
+							break;
+						case 'a':
+							command_complete = axe(gameLevel);
+							if(command_complete){
+								print_board(gameLevel->current_board);
+								print_money(gameLevel);
+							}else{
+								printf("Could not attack\n");
+							}
+							break;
+						case 's':
+							command_complete = slash(gameLevel);
+							if(command_complete){
+								print_board(gameLevel->current_board);
+								print_money(gameLevel);
+							}else{
+								printf("Could not attack\n");
+							}
+							break;
+						case 'b':
+							command_complete = arrow(gameLevel);
+							if(command_complete){
+								print_board(gameLevel->current_board);
+								print_money(gameLevel);
+							}else{
+								printf("Could not attack\n");
 							}
 							break;
 					}
@@ -130,6 +174,7 @@ int main (void)
 /* Function init_level creates the board and inserts each element on a random position in order for the level to begin */
 int init_level(Level* level, int x, int y, char selected_level){
 	level->status = 1;
+	level->money_spent = 0;
 	int obstacle_count, enemy_count,k;
 	char symbol;
 	/*Based on the level the user has selected we calculate the percentage of obstacles and enemies*/
@@ -292,6 +337,11 @@ void print_board(Board* board){
 		printf("\n");
 	}
 }
+void print_money(Level* level){
+	printf("\n");
+	printf("Level money spent: %d \n", level->money_spent);
+	printf("Game money spent: %d \n", total_money_spent);
+}
 void end_level(Level* level){
 	level->status = -1;
 	free(level->current_board);
@@ -431,6 +481,49 @@ int y_has_obstacles(Board* board,int current_x, int current_position, int new_po
 		}
 	}
 	return response;
+}
+int punch(Level* level){
+	BoardElement *knight = getKnight(level->current_board);
+	int currentX = knight->x;
+	int currentY = knight->y;
+	int success = 0;
+	if(success){
+		level->money_spent += 50;
+		total_money_spent += 50;
+	}
+	return success;
+}
+int axe(Level* level){
+	BoardElement *knight = getKnight(level->current_board);
+	int currentX = knight->x;
+	int currentY = knight->y;
+	int success = 0;
+	if(success){
+		level->money_spent += 50;
+		total_money_spent += 50;
+	}
+	return success;
+}
+int slash(Level* level){
+	BoardElement *knight = getKnight(level->current_board);
+	int currentX = knight->x;
+	int currentY = knight->y;
+	int success = 0;
+	if(success){
+		level->money_spent += 50;
+		total_money_spent += 50;
+	}
+	return success;
+}
+int arrow(Level* level){
+	BoardElement *knight = getKnight(level->current_board);
+	int currentX = knight->x;
+	int currentY = knight->y;
+	int success = 0;
+	if(success){
+		level->money_spent += 50;
+		total_money_spent += 50;
+	}
 }
 int calculate_percentage(int x , int y , int percent){
 	int total,res;
