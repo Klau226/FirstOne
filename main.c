@@ -52,6 +52,8 @@ int punch(Level* level);
 int slash(Level* level);
 int axe(Level* level);
 int arrow(Level* level);
+int decrease_enemy(BoardElement *enemy);
+int move_enemy(BoardElement* board[100][100], BoardElement* enemy, char direction);
 
 
 int total_money_spent = 0;
@@ -241,8 +243,7 @@ BoardElement* create_element(int type){
 void insert_enemies(Board* board){
 	int prevX,prevY;
 	int randX,randY=0;
-	for (int i = 0; i < board->enemies; i++)
-	{	
+	for (int i = 0; i < board->enemies; i++){	
 		BoardElement* new_enemy = create_element(2);
 		int foundEmptySpace = 0;
 		while(!foundEmptySpace){
@@ -305,6 +306,7 @@ void insert_knight(Board* board){
 			board->board[randX][randY] = knight;
 			knight->x = randX;
 			knight->y = randY;
+			knight->direction = 'u';
 			free(tmp_element);
 			foundEmptySpace = 1;
 		}
@@ -445,6 +447,8 @@ int moveKnight(Board* current_board, char direction, int cell_count){
 			printf("-------------------\n");		}
 	}
 	if(moved){
+		knight->direction = direction;
+		printf("%c",knight->direction);
 		print_board(current_board);
 	}
 }
@@ -487,6 +491,51 @@ int punch(Level* level){
 	int currentX = knight->x;
 	int currentY = knight->y;
 	int success = 0;
+	if(knight->direction == 'l'){
+		if(level->current_board->board[knight->x][knight->y-1]){
+			if(level->current_board->board[knight->x][knight->y-1]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y-1]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y-1],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+	}else if(knight->direction == 'r'){
+		if(level->current_board->board[knight->x][knight->y+1]){
+			if(level->current_board->board[knight->x][knight->y+1]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y+1]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y+1],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+	}if(knight->direction == 'u'){
+		if(level->current_board->board[knight->x-1][knight->y]){
+			if(level->current_board->board[knight->x-1][knight->y]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x-1][knight->y]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x-1][knight->y],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+	}else{
+		if(level->current_board->board[knight->x+1][knight->y]){
+			if(level->current_board->board[knight->x+1][knight->y]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x+1][knight->y]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x+1][knight->y],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+	}
 	if(success){
 		level->money_spent += 50;
 		total_money_spent += 50;
@@ -498,9 +547,91 @@ int axe(Level* level){
 	int currentX = knight->x;
 	int currentY = knight->y;
 	int success = 0;
+	if(knight->direction == 'l'){
+		if(level->current_board->board[knight->x][knight->y-2]){
+			if(level->current_board->board[knight->x][knight->y-2]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y-2]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y-2],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+		if(level->current_board->board[knight->x][knight->y-1]){
+			if(level->current_board->board[knight->x][knight->y-1]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y-1]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y-1],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+	}else if(knight->direction == 'r'){
+		if(level->current_board->board[knight->x][knight->y+2]){
+			if(level->current_board->board[knight->x][knight->y+2]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y+2]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y+2],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+		if(level->current_board->board[knight->x][knight->y+1]){
+			if(level->current_board->board[knight->x][knight->y+1]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y+1]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y+1],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+		
+	}if(knight->direction == 'u'){
+		if(level->current_board->board[knight->x-2][knight->y]){
+			if(level->current_board->board[knight->x-2][knight->y]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x-2][knight->y]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x-2][knight->y],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+		if(level->current_board->board[knight->x-1][knight->y]){
+			if(level->current_board->board[knight->x-1][knight->y]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x-1][knight->y]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x-1][knight->y],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+	}else{
+		if(level->current_board->board[knight->x+2][knight->y]->type == 2){
+			int is_alive = decrease_enemy(level->current_board->board[knight->x+2][knight->y]);
+			if(is_alive){
+				success = move_enemy(level->current_board->board,level->current_board->board[knight->x+2][knight->y],knight->direction);
+			}else{
+				success = 1;
+			}
+		}
+		if(level->current_board->board[knight->x+1][knight->y]->type == 2){
+			int is_alive = decrease_enemy(level->current_board->board[knight->x+1][knight->y]);
+			if(is_alive){
+				success = move_enemy(level->current_board->board,level->current_board->board[knight->x+1][knight->y],knight->direction);
+			}else{
+				success = 1;
+			}
+		}
+	}
 	if(success){
-		level->money_spent += 50;
-		total_money_spent += 50;
+		level->money_spent += 70;
+		total_money_spent += 70;
 	}
 	return success;
 }
@@ -509,9 +640,129 @@ int slash(Level* level){
 	int currentX = knight->x;
 	int currentY = knight->y;
 	int success = 0;
+	if(knight->direction == 'l'){
+		if(level->current_board->board[knight->x][knight->y-3]){
+			if(level->current_board->board[knight->x][knight->y-3]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y-3]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y-3],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+		if(level->current_board->board[knight->x][knight->y-2]){
+			if(level->current_board->board[knight->x][knight->y-2]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y-2]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y-2],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+		if(level->current_board->board[knight->x][knight->y-1]){
+			if(level->current_board->board[knight->x][knight->y-1]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y-1]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y-1],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+	}else if(knight->direction == 'r'){
+		if(level->current_board->board[knight->x][knight->y+3]){
+			if(level->current_board->board[knight->x][knight->y+3]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y+3]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y+3],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+		if(level->current_board->board[knight->x][knight->y+2]){
+			if(level->current_board->board[knight->x][knight->y+2]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y+2]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y+2],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+		if(level->current_board->board[knight->x][knight->y+1]){
+			if(level->current_board->board[knight->x][knight->y+1]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y+1]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y+1],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+		
+	}if(knight->direction == 'u'){
+		if(level->current_board->board[knight->x-3][knight->y]){
+			if(level->current_board->board[knight->x-3][knight->y]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x-3][knight->y]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x-3][knight->y],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+		if(level->current_board->board[knight->x-2][knight->y]){
+			if(level->current_board->board[knight->x-2][knight->y]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x-2][knight->y]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x-2][knight->y],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+		if(level->current_board->board[knight->x-1][knight->y]){
+			if(level->current_board->board[knight->x-1][knight->y]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x-1][knight->y]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x-1][knight->y],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+	}else{
+		if(level->current_board->board[knight->x+3][knight->y]->type == 3){
+			int is_alive = decrease_enemy(level->current_board->board[knight->x+3][knight->y]);
+			if(is_alive){
+				success = move_enemy(level->current_board->board,level->current_board->board[knight->x+3][knight->y],knight->direction);
+			}else{
+				success = 1;
+			}
+		}
+		if(level->current_board->board[knight->x+2][knight->y]->type == 2){
+			int is_alive = decrease_enemy(level->current_board->board[knight->x+2][knight->y]);
+			if(is_alive){
+				success = move_enemy(level->current_board->board,level->current_board->board[knight->x+2][knight->y],knight->direction);
+			}else{
+				success = 1;
+			}
+		}
+		if(level->current_board->board[knight->x+1][knight->y]->type == 2){
+			int is_alive = decrease_enemy(level->current_board->board[knight->x+1][knight->y]);
+			if(is_alive){
+				success = move_enemy(level->current_board->board,level->current_board->board[knight->x+1][knight->y],knight->direction);
+			}else{
+				success = 1;
+			}
+		}
+	}
 	if(success){
-		level->money_spent += 50;
-		total_money_spent += 50;
+		level->money_spent += 80;
+		total_money_spent += 80;
 	}
 	return success;
 }
@@ -520,10 +771,136 @@ int arrow(Level* level){
 	int currentX = knight->x;
 	int currentY = knight->y;
 	int success = 0;
-	if(success){
-		level->money_spent += 50;
-		total_money_spent += 50;
+	if(knight->direction == 'l'){
+		if(level->current_board->board[knight->x][knight->y-2]){
+			if(level->current_board->board[knight->x][knight->y-2]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y-2]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y-2],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+	}else if(knight->direction == 'r'){
+		if(level->current_board->board[knight->x][knight->y+2]){
+			if(level->current_board->board[knight->x][knight->y+2]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x][knight->y+2]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x][knight->y+2],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+	}if(knight->direction == 'u'){
+		if(level->current_board->board[knight->x-2][knight->y]){
+			if(level->current_board->board[knight->x-2][knight->y]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x-2][knight->y]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x-2][knight->y],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
+	}else{
+		if(level->current_board->board[knight->x+2][knight->y]){
+			if(level->current_board->board[knight->x+2][knight->y]->type == 2){
+				int is_alive = decrease_enemy(level->current_board->board[knight->x+2][knight->y]);
+				if(is_alive){
+					success = move_enemy(level->current_board->board,level->current_board->board[knight->x+2][knight->y],knight->direction);
+				}else{
+					success = 1;
+				}
+			}
+		}
 	}
+	if(success){
+		level->money_spent += 60;
+		total_money_spent += 60;
+	}
+	return success;
+}
+int decrease_enemy(BoardElement *enemy){
+	int response = 0;
+	if(enemy->symbol == '3'){
+		enemy->symbol = '2';
+		response = 2;
+	}else if( enemy->symbol == '2'){
+		enemy->symbol = '1';
+		response = 1;
+	}else{
+		enemy->type = 0;
+		enemy->symbol = '.';
+		response = 0;
+	}
+	return response;
+}
+int move_enemy(BoardElement *board[100][100], BoardElement *enemy,char direction){
+	int response = 0;
+	if(direction == 'l'){
+		if(board[enemy->x][enemy->y-1]){
+			if(board[enemy->x][enemy->y-1]->type == 0){
+				BoardElement *tmp_element = board[enemy->x][enemy->y-1];
+				board[enemy->x][enemy->y-1] = enemy;
+				board[enemy->x][enemy->y] = tmp_element;
+				enemy->y = enemy->y-1;
+				tmp_element->y = tmp_element->y+1; 
+				response = 1;
+			}else{
+				response = 1;
+			}
+		}else{
+			response = 1;
+		}
+	}else if(direction == 'r'){
+		if(board[enemy->x][enemy->y+1]){
+			if(board[enemy->x][enemy->y+1]->type == 0){
+				BoardElement *tmp_element = board[enemy->x][enemy->y+1];
+				board[enemy->x][enemy->y+1] = enemy;
+				board[enemy->x][enemy->y] = tmp_element;
+				enemy->y = enemy->y+1;
+				tmp_element->y = tmp_element->y-1; 
+				response = 1;
+			}else{
+				response = 1;
+			}
+		}else{
+			response = 1;
+		}
+	}else if(direction == 'u'){
+		if(board[enemy->x-1][enemy->y]){
+			if(board[enemy->x-1][enemy->y]->type == 0){
+				BoardElement *tmp_element = board[enemy->x-1][enemy->y];
+				board[enemy->x-1][enemy->y] = enemy;
+				board[enemy->x][enemy->y] = tmp_element;
+				enemy->x = enemy->x-1;
+				tmp_element->x = tmp_element->x+1; 
+				response = 1;
+			}else{
+				response = 1;
+			}
+		}else{
+			response = 1;
+		}
+	}else{
+		if(board[enemy->x+1][enemy->y]){
+			if(board[enemy->x+1][enemy->y]->type == 0){
+				BoardElement *tmp_element = board[enemy->x+1][enemy->y];
+				board[enemy->x+1][enemy->y] = enemy;
+				board[enemy->x][enemy->y] = tmp_element;
+				enemy->x = enemy->x+1;
+				tmp_element->x = tmp_element->x-1; 
+				response = 1;
+			}else{
+				response = 1;
+			}
+		}else{
+			response = 1;
+		}
+	}
+	return response;
 }
 int calculate_percentage(int x , int y , int percent){
 	int total,res;
