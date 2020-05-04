@@ -822,6 +822,9 @@ int arrow(Level* level){
 	}
 	return success;
 }
+//Elegxei poses zwes exei o enemy
+//Afairei mia zwh
+//Epistrefei to poses zwes apomenoun h to ean pethane o enemy
 int decrease_enemy(BoardElement *enemy){
 	int response = 0;
 	if(enemy->symbol == '3'){
