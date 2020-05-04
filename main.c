@@ -840,12 +840,19 @@ int decrease_enemy(BoardElement *enemy){
 int move_enemy(BoardElement *board[100][100], BoardElement *enemy,char direction){
 	int response = 0;
 	if(direction == 'l'){
+		//Ean to keli sta aristera tou enemy yparxei h einai sthn akrh tou pinaka
 		if(board[enemy->x][enemy->y-1]){
+			//Ean to keli sta aristera tou enemy einai adeio
 			if(board[enemy->x][enemy->y-1]->type == 0){
+				//Vale to keli aristera tou enemy mesa se mia proswrinh metavlhth
 				BoardElement *tmp_element = board[enemy->x][enemy->y-1];
+				//Sthn thesh pou htan to adeio keli metakinhse ton enemy
 				board[enemy->x][enemy->y-1] = enemy;
+				//Sthn thesh pou htan o enemy phgaine to adeio keli pou to kratame se mia proswrinh metavlhth
 				board[enemy->x][enemy->y] = tmp_element;
+				//Kane update ton enemy kai pes tou to kainourio sou y einai to y-1 giati ton phgame kata ena keli aristera
 				enemy->y = enemy->y-1;
+				//Kane update to adeio keli kai pes tou to kainourio sou y einai y+1 giati ton phgame kata ena keli deksia
 				tmp_element->y = tmp_element->y+1; 
 				response = 1;
 			}else{
