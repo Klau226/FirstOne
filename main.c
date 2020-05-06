@@ -54,7 +54,7 @@ int axe(Level* level);
 int arrow(Level* level);
 int decrease_enemy(BoardElement *enemy);
 int move_enemy(BoardElement* board[100][100], BoardElement* enemy, char direction);
-
+int level_finished(Board *board);
 
 int total_money_spent = 0;
 int main (void)
@@ -166,8 +166,11 @@ int main (void)
 							}
 							break;
 					}
+					int finished = level_finished(gameLevel->current_board);
+					if(finished){
+						end_level(gameLevel);
+					}
 				}
-				//end_level(gameLevel);
 			}
 		}
 	}
@@ -909,6 +912,17 @@ int move_enemy(BoardElement *board[100][100], BoardElement *enemy,char direction
 		}else{
 			response = 1;
 		}
+	}
+	return response;
+}
+int level_finished(Board *board){
+	int response = 1;
+	for (int i = 0; i < board->x; i++) {
+        for (int j = 0; j < board->y; j++) {	
+			if(board->board[i][j]->type == 2){
+				response = 0;
+			}
+        }
 	}
 	return response;
 }
