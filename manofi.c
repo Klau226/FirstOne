@@ -29,11 +29,12 @@ int main (void)
 	
 
 final_destination* array(final_destination* board,int arr_col){
+	int i,j;
 	final_destination* new_board = (final_destination*)malloc(arr_col*sizeof(final_destination));
 	printf("\n\n");
 	printf("The matrix cells were filled in as follows:\n");	
-	for (int i=0;i<arr_col;i++){
-		for (int j=0;j<arr_col;j++){
+	for ( i=0;i<arr_col;i++){
+		for ( j=0;j<arr_col;j++){
 			do{
 			new_board->number = -26+rand()%56;
 			}while(new_board->number < -26 || new_board->number > 26);
